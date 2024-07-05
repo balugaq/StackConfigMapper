@@ -33,6 +33,10 @@ def error(string, end='\n'):
     print(f'{Color.red}{string}', end=end)
 
 
+def info(string, end='\n'):
+    print(f"{Color.cyan}{string}", end=end)
+
+
 def getYamlContext(file):
     try:
         result = yaml.load(file, Loader=yaml.FullLoader)
@@ -212,8 +216,10 @@ def main():
                                 itemstack = raw_inputs[key2]
                                 itemstack['material_type'] = MATERIAL_TYPE_MAP.get(itemstack.get('material_type', 'mc' if itemstack.get('material', NULL) != NULL else 'none'), "untranslatable")
                                 if itemstack['material_type'] == "untranslatable":
+                                    info(f"在 recipe_machines.yml 的 {machine_id} 的 recipes 的 {key} 的 inputs 的 {key2} 发现了不可转换的类型，已跳过，请注意检查")
                                     continue
                                 if itemstack['material_type'] == "none":
+                                    info(f"在 recipe_machines.yml 的 {machine_id} 的 recipes 的 {key} 的 inputs 的 {key2} 发现了 none 类型，已跳过，请注意检查")
                                     continue
                                 itemstack['amount'] = itemstack.get('amount', 1)
                                 inputs.append({
@@ -227,8 +233,10 @@ def main():
                                 itemstack = raw_outputs[key3]
                                 itemstack['material_type'] = MATERIAL_TYPE_MAP.get(itemstack.get('material_type', 'mc' if itemstack.get('material', NULL) != NULL else 'none'), "untranslatable")
                                 if itemstack['material_type'] == "untranslatable":
+                                    info(f"在 recipe_machines.yml 的 {machine_id} 的 recipes 的 {key} 的 outputs 的 {key3} 发现了不可转换的类型，已跳过，请注意检查")
                                     continue
                                 if itemstack['material_type'] == "none":
+                                    info(f"在 recipe_machines.yml 的 {machine_id} 的 recipes 的 {key} 的 outputs 的 {key3} 发现了 none 类型，已跳过，请注意检查")
                                     continue
                                 itemstack['amount'] = itemstack.get('amount', 1)
                                 if itemstack.get("chance", -1) != -1:
@@ -306,8 +314,10 @@ def main():
                             consume = recipe.get("item", {})
                             consume['material_type'] = MATERIAL_TYPE_MAP.get(consume.get('material_type', 'mc' if consume.get('material', NULL) != NULL else 'none'), "untranslatable")
                             if consume['material_type'] == "untranslatable":
+                                info(f"在 generators.yml 的 {machine_id} 的 item 发现了不可转换的类型，已跳过，请注意检查")
                                 continue
                             if consume['material_type'] == "none":
+                                info(f"在 generators.yml 的 {machine_id} 的 item 发现了 none 类型，已跳过，请注意检查")
                                 continue
                             consume['amount'] = consume.get('amount', 1)
                             consume = {
@@ -318,8 +328,10 @@ def main():
                             output = recipe.get("output", {})
                             output['material_type'] = MATERIAL_TYPE_MAP.get(output.get('material_type', 'mc' if output.get('material', NULL) != NULL else 'none'), "untranslatable")
                             if output['material_type'] == "untranslatable":
+                                info(f"在 generators.yml 的 {machine_id} 的 output 发现了不可转换的类型，已跳过，请注意检查")
                                 continue
                             if output['material_type'] == "none":
+                                info(f"在 generators.yml 的 {machine_id} 的 output 发现了 none 类型，已跳过，请注意检查")
                                 continue
                             output['amount'] = output.get('amount', 1)
                             output = {
@@ -438,8 +450,10 @@ def main():
                         outputItem = old[machine_id].get("outputItem", {})
                         outputItem['material_type'] = MATERIAL_TYPE_MAP.get(outputItem.get('material_type', 'mc' if outputItem.get('material', NULL) != NULL else 'none'), "untranslatable")
                         if outputItem['material_type'] == "untranslatable":
+                            info(f"在 mat_generators.yml 的 {machine_id} 的 outputItem 发现了不可转换的类型，已跳过，请注意检查")
                             continue
                         if outputItem['material_type'] == "none":
+                            info(f"在 mat_generators.yml 的 {machine_id} 的 outputItem 发现了 none 类型，已跳过，请注意检查")
                             continue
                         outputItem['amount'] = outputItem.get('amount', 1)
                         outputItem = {
@@ -456,11 +470,13 @@ def main():
                         })
                         
                         outputs = old[machine_id].get("outputs", {})
-                        for itemstack in outputs.values():
+                        for k, itemstack in outputs.items():
                             itemstack['material_type'] = MATERIAL_TYPE_MAP.get(itemstack.get('material_type', 'mc' if itemstack.get('material', NULL) != NULL else 'none'), "untranslatable")
                             if itemstack['material_type'] == "untranslatable":
+                                info(f"在 mat_generators.yml 的 {machine_id} 的 outputs 的 {k} 发现了不可转换的类型，已跳过，请注意检查")
                                 continue
                             if itemstack['material_type'] == "none":
+                                info(f"在 mat_generators.yml 的 {machine_id} 的 outputs 的 {k} 发现了 none 类型，已跳过，请注意检查")
                                 continue
                             itemstack['amount'] = itemstack.get('amount', 1)
                             ready.append({
