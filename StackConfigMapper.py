@@ -207,7 +207,7 @@ def main():
                         
                         for key in recipes:
                             recipe = recipes[key]
-                            duration = recipe.get("seconds", 1)
+                            duration = recipe.get("seconds", 1)*2
                             raw_inputs = recipe.get("input", {})
                             raw_outputs = recipe.get("output", {})
                             inputs = []
@@ -310,7 +310,7 @@ def main():
                         
                         for key in fuels:
                             recipe = fuels[key]
-                            duration = recipe.get("seconds", 1)
+                            duration = recipe.get("seconds", 1)*2
                             consume = recipe.get("item", {})
                             consume['material_type'] = MATERIAL_TYPE_MAP.get(consume.get('material_type', 'mc' if consume.get('material', NULL) != NULL else 'none'), "untranslatable")
                             if consume['material_type'] == "untranslatable":
